@@ -1,0 +1,25 @@
+{
+  "name": "codestats-backend",
+  "version": "1.0.0",
+  "description": "The backend of Codestats website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scramjet911/coders-website.git"
+  },
+  "keywords": [
+    "coders-companion"
+  ],
+  "author": "Scramjet911, ajaykpv, navaneethmanoj, Riswanatr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Scramjet911/coders-website/issues"
+  },
+  "homepage": "https://github.com/Scramjet911/coders-website#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
