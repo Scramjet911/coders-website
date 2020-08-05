@@ -5,50 +5,31 @@ import "./index.css";
 import './App.css';
 import Login from './components/login.js';
 import SignUp from './components/signup.js';
+import Top from './components/top.js';
+import Middle from './components/middle.js';
+import New from './components/new.js';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 function Welcome() 
 { 
-        return <div><Router>
-                    <nav className="navbar navbar-expand-lg navbar-light fixed-top">   
-                       <div>    
-                           <div class="bar1"></div>
-                           <div class="bar1"></div>
-                           <div class="bar2"></div>
-                       </div>
-                       <div className="container">
-                          <Link className="navbar-brand" to={"/home"}><h2>CodeStats </h2></Link><h2>{new Date().toLocaleTimeString()}.</h2>
-                       </div>
-                       <div className="container">
-                          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                              <ul className="navbar-nav ml-auto">
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/home"}>HOME</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/resources"}>RESOURCES</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/discussions"}>DISCUSSIONS</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/blogs"}>BLOGS</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/sign-in"}>SING IN</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                     <Link className="nav-link" to={"/sign-up"}>SIGN UP</Link>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </nav>
+        return <div>
+                  <div className="top-body">
+                    <Top/>
+                  </div>
+                  <div className="middle-inner">
+                    <div className="middle-wrapper">
+                    <Middle/>
+                  </div>
+                  </div>
                   <div className="auth-inner" >
                       <div className="auth-wrapper">
-                     <Login/>
-                     </div>
+                      <Login />
+                      </div>
                   </div>
-                </Router>
+                  <div className="card-inner" >
+                      <div className="card-wrapper">
+                      <New />
+                      </div>
+                  </div>
           </div> 
 } 
    

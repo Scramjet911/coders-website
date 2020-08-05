@@ -1,9 +1,10 @@
 import React from 'react'; 
+import Login from './login';
 const SignUp = (props) => { 
   return ( 
     <form>
               <h3 className="title">Sign Up</h3>
-
+               <div className="middle-body">
               <div className="container">
                   <label className="title"> Name</label>
                   <input type="name" className="form-control" placeholder="Name" />
@@ -16,9 +17,10 @@ const SignUp = (props) => {
                   <label className="title">Confirm Password</label>
                   <input type="password" className="form-control" placeholder="Enter password" />
                   <label className="title"></label>
-                  <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                  <a href={Login}><button type="submit" className="btn btn-primary btn-block">Sign Up</button></a>
+             </div>
              </div>
           </form>
-  ) 
+  ) ;
 } 
 export default SignUp;
