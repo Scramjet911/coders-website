@@ -62,6 +62,10 @@ var userSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
+    photo:{
+        data:Buffer,
+        contentType:String
+    },
     comment_hist:{
         type:Array,
         default:[]
@@ -70,7 +74,9 @@ var userSchema = new mongoose.Schema({
         type:Array,
         default:[]
     }
-    //todo rating,dp
+    
+
+    //todo rating
     
 },
 {timestamps:true});

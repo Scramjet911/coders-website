@@ -71,7 +71,7 @@ exports.signout= (req,res)=>{
 //protected routes
 exports.isSignedIn=expressJwt({
     secret:process.env.SECRET,
-    algorithms: ['RS256'],
+    algorithms: ['HS256'],
     userProperty:"auth"
 })
 
@@ -84,7 +84,7 @@ exports.isAuthenticated=(req,res,next)=>{
         });
     }
     next();
-};
+}
 
 exports.isAdmin=(req,res,next)=>{
     if(req.profile.role===0){
