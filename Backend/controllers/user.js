@@ -26,7 +26,7 @@ exports.getUser = (req,res)=>{
         req.profile.photo=undefined;
     }
     
-    console.log(req.prfile);
+   // console.log(req.prfile);
     return res.json(req.profile)
 
 };
@@ -75,4 +75,9 @@ exports.updateUser = (req,res)=>{
         })
 
     });
+};
+
+exports.changePassword = (req,res)=>{
+    
 }
+
