@@ -4,7 +4,7 @@ const _ =require("lodash");
 const fs =require("fs");
 
 
-exports.getUserById =(req,res,next,id)=>{
+exports.getUserById = (req,res,next,id)=>{
     User.findById(id).exec((err,user)=> {
         if(err || !user){
             return res.status(400).json({
