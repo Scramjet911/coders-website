@@ -4,7 +4,7 @@ const _ =require("lodash");
 const fs =require("fs");
 
 
-exports.getUserById =(req,res,next,id)=>{
+exports.getUserById = (req,res,next,id)=>{
     User.findById(id).exec((err,user)=> {
         if(err || !user){
             return res.status(400).json({
@@ -26,7 +26,7 @@ exports.getUser = (req,res)=>{
         req.profile.photo=undefined;
     }
     
-    console.log(req.prfile);
+   // console.log(req.prfile);
     return res.json(req.profile)
 
 };
@@ -75,4 +75,9 @@ exports.updateUser = (req,res)=>{
         })
 
     });
+};
+
+exports.changePassword = (req,res)=>{
+    
 }
+

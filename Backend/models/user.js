@@ -26,6 +26,17 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    confirmed:{
+        type:Boolean,
+        default:false
+    },
+    token:{
+        type:String,
+        required:true
+    },
+    temp_tpken:{
+        type:String
+    },
     salt:String,
     role:{
         type:Number,
