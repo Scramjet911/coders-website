@@ -1,4 +1,5 @@
 const mongoose =require('mongoose');
+const { string } = require('yargs');
 const {ObjectId}=mongoose.Schema;
 const articleSchema = new mongoose.Schema({
     title:{
@@ -9,11 +10,24 @@ const articleSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    authername:{
+        type:String
+    },
     author:{
             type:ObjectId,
             ref:"User",
             required:true
-    }
+    },
+    category:[{
+        type:ObjectId,
+        ref:"Category",
+        required:true
+    }],
+    like:[{
+        type:ObjectId,
+        ref:'Users'
+    }]
+
 },
 {timestamps:true});
 

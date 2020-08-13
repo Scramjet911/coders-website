@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 const crypto = require('crypto');  
 const uuidv1= require('uuid/v1');
+const {ObjectId}  =  mongoose.Schema;
 
 var userSchema = new mongoose.Schema({
     username :{
@@ -65,14 +66,18 @@ var userSchema = new mongoose.Schema({
     DOB:{
       type:Date  
     },
-    articles:{
-        type:Array,
-        default:[]
-    },
-    savedarticles:{
-        type:Array,
-        default:[]
-    },
+    posts:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    savedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    likedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
     photo:{
         data:Buffer,
         contentType:String
