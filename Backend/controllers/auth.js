@@ -14,14 +14,14 @@ exports.signup = (req,res)=>{
     const user=new User(req.body)
     //creating a token
     const token =jwt.sign({_id:user._id},process.env.EMAIL_SECRET,{expiresIn:'1d'});
-    user.token=token;
+    //user.token=token;
     user.save((err,user)=>{
         if(err){
             return res.status(400).json({
                 err:"Not able to save user in DB"
             })
         }
-        const url=`http://localhost:3000/confirmation/${user.token}`;
+        const url=`http://localhost:3000/confirmation/${token}`;
         
         //send mail
         try{

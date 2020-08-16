@@ -31,11 +31,7 @@ var userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    token:{
-        type:String,
-        required:true
-    },
-    temp_tpken:{
+    temp_token:{
         type:String
     },
     salt:String,
@@ -50,10 +46,6 @@ var userSchema = new mongoose.Schema({
     institution:{
         type:String,
         required:true
-    },
-    parti_List:{
-        type:Array,
-        default:[]
     },
     savedList:{
         type:Array,
@@ -82,14 +74,23 @@ var userSchema = new mongoose.Schema({
         data:Buffer,
         contentType:String
     },
-    comment_hist:{
-        type:Array,
-        default:[]
-    },
+    comment_hist:[{
+        type:ObjectId,
+        ref:"Articlecomment"
+    }],
     discussion:{
         type:Array,
         default:[]
-    }
+    },
+    following:[{
+        type:ObjectId,
+        ref:'User'
+    }],
+    
+    followers:[{
+        type:ObjectId,
+        ref:'User'
+    }]
     
 
     //todo rating

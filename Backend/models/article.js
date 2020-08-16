@@ -1,5 +1,4 @@
 const mongoose =require('mongoose');
-const { string } = require('yargs');
 const {ObjectId}=mongoose.Schema;
 const articleSchema = new mongoose.Schema({
     title:{
@@ -26,7 +25,16 @@ const articleSchema = new mongoose.Schema({
     like:[{
         type:ObjectId,
         ref:'Users'
-    }]
+    }],
+    like_count:{
+        type:Number,
+        default:0
+    },
+    comments:[{
+        type:ObjectId,
+        ref:'Articlecomment'
+    }],
+
 
 },
 {timestamps:true});
