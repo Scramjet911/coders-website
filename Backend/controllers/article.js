@@ -21,6 +21,18 @@ exports.getArticleById = (req,res,next,id) =>{
         next();
     })
 };
+exports.getCommentById = (req,res,next,id) =>{
+    Comment.findById(id)
+    .exec((err,comment)=>{
+        if(err){ 
+            return res.status(400).json({
+                error:"comment not found"
+            });
+        }
+        req.comment =comment;
+        next();
+    })
+};
 
 exports.createArticle = (req,res) =>{   
 
@@ -197,6 +209,9 @@ exports.unlike = (req,res)=>{
          })
     })
 }
+    //{
+    //      "body":"comment"
+    //  }
 
 exports.createComment = (req,res)=>{
     // const errors = validationResult(req)
@@ -241,13 +256,14 @@ exports.createComment = (req,res)=>{
 
 
 }
+
 exports.deleteComment= (req,res)=>{
     id=req.params.id;
     let user =req.profile;
     let article = req.article;
     Comment.findById(id,(err,comment)=>{
        // console.log(comment)
-        if(err){
+        if(err || comment.author!= user._id){
             return res.json({
                 error:"can not find this comment"
             })
@@ -268,4 +284,48 @@ exports.deleteComment= (req,res)=>{
     })
     })
     
+}
+// req.body
+//
+//  {
+//      "body":"comment"
+//  }
+exports.updateComment= (req,res)=>{
+        comment =req.comment;
+        comment.body = req.body.body;
+        comment.save((err)=>{
+            if(err){
+                return res.json({
+                    err:err,
+                    error:"can not update this comment",
+                    comment:comment
+                })
+            }
+            res.status(400).json({
+                body:comment.body,
+                msg:"comment updated successfully"
+            })
+    })
+    
+    
+}
+// for get all comments of a article
+exports.getAllcomment =(req,res) =>{
+    let limit=req.query.limit?parseInt(req.query.limit) :5
+    let sortBy=req.query.sortBy?req.query.sortBy :"createdAt"
+    let art = req.article;
+    Comment.find({article : art._id})
+   .populate("author",'username')
+   .populate("article",'title')
+    .sort([[sortBy,"asc"]])
+    .limit(limit)
+    .exec((err,comments)=>{
+        if(err){
+            return res.status(400).json({
+                error:"no article found"
+            });
+
+        }
+        res.json(comments)
+    })
 }
