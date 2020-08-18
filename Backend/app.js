@@ -11,6 +11,7 @@ const cors = require('cors');
 const authRoutes=require("./routes/auth")
 const userRoutes=require("./routes/user");
 const articleRoutes=require("./routes/article")
+const categoryRoutes =require("./routes/category")
 
 
 //database connection
@@ -33,6 +34,7 @@ app.use(cors());
 app.use("/api",authRoutes);
 app.use("/api",userRoutes);
 app.use("/api",articleRoutes);
+app.use("/api",categoryRoutes);
 
 
 const port=process.env.PORT|| 8000;

@@ -9,11 +9,33 @@ const articleSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    authername:{
+        type:String
+    },
     author:{
             type:ObjectId,
             ref:"User",
             required:true
-    }
+    },
+    category:[{
+        type:ObjectId,
+        ref:"Category",
+        required:true
+    }],
+    like:[{
+        type:ObjectId,
+        ref:'Users'
+    }],
+    like_count:{
+        type:Number,
+        default:0
+    },
+    comments:[{
+        type:ObjectId,
+        ref:'Articlecomment'
+    }],
+
+
 },
 {timestamps:true});
 

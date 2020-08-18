@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 const crypto = require('crypto');  
 const uuidv1= require('uuid/v1');
+const {ObjectId}  =  mongoose.Schema;
 
 var userSchema = new mongoose.Schema({
     username :{
@@ -30,11 +31,7 @@ var userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    token:{
-        type:String,
-        required:true
-    },
-    temp_tpken:{
+    temp_token:{
         type:String
     },
     salt:String,
@@ -50,10 +47,6 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    parti_List:{
-        type:Array,
-        default:[]
-    },
     savedList:{
         type:Array,
         default:[]
@@ -65,26 +58,39 @@ var userSchema = new mongoose.Schema({
     DOB:{
       type:Date  
     },
-    articles:{
-        type:Array,
-        default:[]
-    },
-    savedarticles:{
-        type:Array,
-        default:[]
-    },
+    posts:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    savedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    likedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
     photo:{
         data:Buffer,
         contentType:String
     },
-    comment_hist:{
-        type:Array,
-        default:[]
-    },
+    comment_hist:[{
+        type:ObjectId,
+        ref:"Articlecomment"
+    }],
     discussion:{
         type:Array,
         default:[]
-    }
+    },
+    following:[{
+        type:ObjectId,
+        ref:'User'
+    }],
+    
+    followers:[{
+        type:ObjectId,
+        ref:'User'
+    }]
     
 
     //todo rating
