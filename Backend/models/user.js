@@ -1,6 +1,17 @@
 var mongoose = require('mongoose');
 const crypto = require('crypto');  
-const uuidv1= require('uuid/v1');
+const {v1 : uuidv1}= require('uuid');
+
+var subscriberSchema = new mongoose.Schema({
+    active : {
+        type : Number
+    },
+    endpoint : {
+        type : String,
+        required : true
+    },
+    keys : mongoose.Schema.Types.Mixed,
+});
 
 var userSchema = new mongoose.Schema({
     username :{
@@ -73,9 +84,10 @@ var userSchema = new mongoose.Schema({
     discussion:{
         type:Array,
         default:[]
+    },
+    subscriptions : {
+        type : [subscriberSchema]
     }
-    
-
     //todo rating
     
 },

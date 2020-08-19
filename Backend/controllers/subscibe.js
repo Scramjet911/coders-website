@@ -2,18 +2,17 @@ const publicKey = process.env.publicKey;
 const privateKey = process.env.privateKey;
 
 const webpush = require('web-push');
-const Subscribers = require('../models/subscribers');
 const Users = require('../models/user');
 
 webpush.setVapidDetails('mailto:massmenon@gmail.com',publicKey,privateKey);     // Webpush initialize with keys
-var mydb = null;
 
 /*  Function to save the user endpoint in User collection
     Request body should be of format : 
-    {userId : ...,
-    subscription : {
-        endpoint : ...,
-        keys : {...}
+    {
+        subscription : {
+            endpoint : ...,
+            keys : {...}
+        }
     }}
  */
 exports.addSubscription = (req, res)=>{
@@ -21,7 +20,7 @@ exports.addSubscription = (req, res)=>{
     // Finds the user using ID and pushes subscription value into subscription Array
     let subval = req.body.subscription;
     subval.status = 1;
-    Users.findOneAndUpdate({_id : req.body.userId}, {$push:{subscriptions : subval}}, (error,success)=>{     
+    Users.findOneAndUpdate({_id : req.params.userId}, {$push:{subscriptions : subval}}, (error,success)=>{     
         if(error){
             console.log("Couldn't add Subscriber to User Database",error);
         }
@@ -37,14 +36,13 @@ exports.addSubscription = (req, res)=>{
 /* Update Subscription Request, update subscription to enable(1) or disable(0) 
     Request body of format :
     {
-        userId : ..,
         subId : ..,
         status : ... (1:enable, 0:disable)
     }
 */
 exports.updateSubscription = (req, res)=>{
     let subval = req.body;
-    Users.findOneAndUpdate({_id : subval.userId, "subscriptions._id":subval.subId}, {$set:{"subscriptions.$.status" : subval.status}}, (error,success)=>{     
+    Users.findOneAndUpdate({_id : req.params.userId, "subscriptions._id":subval.subId}, {$set:{"subscriptions.$.status" : subval.status}}, (error,success)=>{     
         if(error){
             console.log("Couldn't update Subscriber status",error);
         }
@@ -57,16 +55,15 @@ exports.updateSubscription = (req, res)=>{
     });
 }
 
-/* Update Subscription Request, update subscription to enable(1) or disable(0) 
+/* Delete Subscription Request, update subscription to enable(1) or disable(0) 
     Request body of format :
     {
-        userId : ..,
         subId : ..,
     }
 */
 exports.deleteSubscription = (req, res)=>{
     let subval = req.body;
-    Users.findOneAndUpdate({_id : subval.userId,"subscriptions._id":subval.endId}, {$pull:{"subscriptions" :{"_id": subval.endId}}}, (error,success)=>{     
+    Users.findOneAndUpdate({_id : req.params.userId,"subscriptions._id":subval.endId}, {$pull:{"subscriptions" :{"_id": subval.endId}}}, (error,success)=>{     
         if(error){
             console.log("Couldn't Delete Subscriber from Database",error);
         }
@@ -75,6 +72,19 @@ exports.deleteSubscription = (req, res)=>{
             res.json({
                 'message' : 'Successfully Deleted' 
             })
+        }
+    });
+}
+
+/* Get a users subscription list, not really necessary since it is retrieved when a user-getbyid is called */
+exports.getSubscription = (req, res)=>{
+    Users.findById({_id : req.params.userId},(error, user)=>{
+        if(error){
+            console.log("Unable to get user subscriptions");
+        }
+        else{
+            console.log("Retrieved Subscriptions");
+            res.json(user.subscriptions);
         }
     });
 }
