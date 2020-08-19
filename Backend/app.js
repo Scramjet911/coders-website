@@ -10,6 +10,8 @@ const cors = require('cors');
 //my routes
 const authRoutes=require("./routes/auth")
 const userRoutes=require("./routes/user");
+const subscriberRoutes = require("./routes/subscribe");
+const eventRoutes = require("./routes/events");
 const articleRoutes=require("./routes/article")
 const categoryRoutes =require("./routes/category")
 
@@ -33,6 +35,8 @@ app.use(cors());
 //routes
 app.use("/api",authRoutes);
 app.use("/api",userRoutes);
+app.use("/api",subscriberRoutes);
+app.use("/api",eventRoutes);
 app.use("/api",articleRoutes);
 app.use("/api",categoryRoutes);
 
