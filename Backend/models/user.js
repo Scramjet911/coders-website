@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 const crypto = require('crypto');  
 const {v1 : uuidv1}= require('uuid');
+const {ObjectId}  =  mongoose.Schema;
 
 var subscriberSchema = new mongoose.Schema({
     active : {
@@ -37,6 +38,13 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    confirmed:{
+        type:Boolean,
+        default:false
+    },
+    temp_token:{
+        type:String
+    },
     salt:String,
     role:{
         type:Number,
@@ -50,10 +58,6 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    parti_List:{
-        type:Array,
-        default:[]
-    },
     savedList:{
         type:Array,
         default:[]
@@ -65,22 +69,26 @@ var userSchema = new mongoose.Schema({
     DOB:{
       type:Date  
     },
-    articles:{
-        type:Array,
-        default:[]
-    },
-    savedarticles:{
-        type:Array,
-        default:[]
-    },
+    posts:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    savedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
+    likedarticles:[{
+        type:ObjectId,
+        ref:"Article"
+    }],
     photo:{
         data:Buffer,
         contentType:String
     },
-    comment_hist:{
-        type:Array,
-        default:[]
-    },
+    comment_hist:[{
+        type:ObjectId,
+        ref:"Articlecomment"
+    }],
     discussion:{
         type:Array,
         default:[]
@@ -88,6 +96,15 @@ var userSchema = new mongoose.Schema({
     subscriptions : {
         type : [subscriberSchema]
     }
+    following:[{
+        type:ObjectId,
+        ref:'User'
+    }],
+    
+    followers:[{
+        type:ObjectId,
+        ref:'User'
+    }]
     //todo rating
     
 },

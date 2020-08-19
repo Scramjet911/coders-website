@@ -1,7 +1,7 @@
 const express = require("express");
 var router = express.Router();
 const { check ,validationResult, oneOf} = require('express-validator');
-const{signout,signup,signin,isSignedIn}=require('../controllers/auth');
+const{signout,signup,signin,isSignedIn,confirmationPost,forgotpassword, createPassword}=require('../controllers/auth');
 
 router.post("/signup",[
     check("username","username should be 3 characters")
@@ -21,6 +21,7 @@ router.post("/signup",[
 ],
 signup 
 );
+router.post("/confirmation/:token",confirmationPost)
 router.post("/signin",[
     check("email","email is required")
     .isEmail(),
@@ -29,6 +30,13 @@ router.post("/signin",[
 ]
 ,signin);
 router.get("/signout",signout);
+router.post("/forgotpassword",
+[
+    check("email","email is required")
+    .isEmail(),
+],
+forgotpassword);
+router.post("/createpassword/:token",createPassword)
 
 
 

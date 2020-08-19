@@ -4,7 +4,7 @@ const _ =require("lodash");
 const fs =require("fs");
 
 
-exports.getUserById =(req,res,next,id)=>{
+exports.getUserById = (req,res,next,id)=>{
     User.findById(id).exec((err,user)=> {
         if(err || !user){
             return res.status(400).json({
@@ -26,7 +26,7 @@ exports.getUser = (req,res)=>{
         req.profile.photo=undefined;
     }
     
-    console.log(req.prfile);
+   // console.log(req.prfile);
     return res.json(req.profile)
 
 };
@@ -75,4 +75,71 @@ exports.updateUser = (req,res)=>{
         })
 
     });
+};
+
+exports.follow=(req,res)=>{
+    let user = req.profile;
+    User.findById(req.params.id,(err,follow)=>{
+        if(err){
+            res.status(400).json({
+                error:"this user not found"
+            })
+        }
+        user.following.push(follow._id);
+        follow.followers.push(user._id);
+        user.save((err)=>{
+            if(err){
+                res.status(400).json({
+                    error:"following failed"
+                })
+            }
+            follow.save((err)=>{
+                if(err){
+                    res.status(400).json({
+                        error:"following failed.."
+                    })
+                }
+            })
+            res.status(400).json({
+                msg:"followed"
+            })
+        
+        })
+        
+    })
+    
 }
+exports.unfollow=(req,res)=>{
+    let user = req.profile;
+    User.findById(req.params.id,(err,follow)=>{
+        if(err){
+            res.status(400).json({
+                error:"this user not found"
+            })
+        }
+        user.following.pull(follow._id);
+        follow.followers.pull(user._id);
+        user.save((err)=>{
+            if(err){
+                res.status(400).json({
+                    error:"unfollowing failed"
+                })
+            }
+            follow.save((err)=>{
+                if(err){
+                    res.status(400).json({
+                        error:"unfollowing failed.."
+                    })
+                }
+            })
+            res.status(400).json({
+                msg:"unfollowed"
+            })
+        
+        })
+
+    })
+    
+
+}
+

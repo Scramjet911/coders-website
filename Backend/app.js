@@ -12,12 +12,16 @@ const authRoutes=require("./routes/auth")
 const userRoutes=require("./routes/user");
 const subscriberRoutes = require("./routes/subscribe");
 const eventRoutes = require("./routes/events");
+const articleRoutes=require("./routes/article")
+const categoryRoutes =require("./routes/category")
+
 
 //database connection
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology:true,
-    useCreateIndex:true
+    useCreateIndex:true,
+    useFindAndModify: false 
 }).then(()=>{
     console.log("DB connected")
 });
@@ -33,6 +37,8 @@ app.use("/api",authRoutes);
 app.use("/api",userRoutes);
 app.use("/api",subscriberRoutes);
 app.use("/api",eventRoutes);
+app.use("/api",articleRoutes);
+app.use("/api",categoryRoutes);
 
 
 const port=process.env.PORT|| 8000;
