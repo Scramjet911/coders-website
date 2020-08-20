@@ -1,5 +1,19 @@
 const {Events, EventsReview} = require('../models/events');
 
+exports.getEvent = (req, res)=>{
+    let currdate = new Date()
+    let queryDateMin = new Date(currdate.getFullYear(),currdate.getMonth(),1),
+        queryDateMax = new Date(currdate.getFullYear(),currdate.getMonth()+1,0);
+    Events.find({"date" : {$gte : queryDateMin, $lte : queryDateMax}},(err,event)=>{
+        if(err){
+            console.log("Database Error",err);
+            res.status(500).send("Error");
+        }
+        else{
+            res.status(201).json(event);
+        }
+    })
+}
 exports.addReviewEvent = (req, res)=>{
     var saveObj = req.body;
     saveObj.date = new Date(saveObj.date);
@@ -15,6 +29,35 @@ exports.addReviewEvent = (req, res)=>{
         else{
             console.log('New Event Created for Review',newEvent);
             res.status(201).send("Success");
+        }
+    });
+}
+
+exports.updateReviewEvent = (req, res)=>{
+    EventsReview.findByIdAndUpdate(req.body.id,req.body,(err,data)=>{
+        if(err){
+            console.log("Couldn't update Event",err);
+            res.status(500).json(error);
+        }
+        else{
+            console.log("Review Event Successfully Updated");
+            res.status(201).send("Succes");
+        }
+    })
+}
+
+exports.deleteReviewEvent = (req,res)=>{
+    if(!req.body.hasOwnProperty("id") && req.body.id==null){
+        res.status(400).send("Bad Request");
+        return;
+    }
+    EventsReview.deleteOne({_id : req.body.id},(error)=>{
+        if(error){
+            console.log("Couldn't Delete Event",error);
+            res.status(500).send("Server Error");
+        }
+        else{
+            res.status(200).send("Success");
         }
     });
 }
@@ -46,7 +89,7 @@ exports.approveEvent = (req, res)=>{
         title : ..,
         description : .. (opt),
         location : ..,
-        date : ..,  ("yyyy-mm-dd")
+        date : ..,  (js Date(yyyy,mm,dd,hh,mm,ss(opt)))
         duration : ...(in minutes)    
     }
 */
@@ -65,8 +108,21 @@ exports.addEvent = (req, res)=>{
     });
 }
 
+exports.updateEvent = (req, res)=>{
+    Events.findByIdAndUpdate(req.body.id,req.body,(err,data)=>{
+        if(err){
+            console.log("Couldn't update Event",err);
+            res.status(500).json(error);
+        }
+        else{
+            console.log("Event Successfully Updated");
+            res.status(201).send("Succes");
+        }
+    })
+}
+
 exports.deleteEvent = (req,res)=>{
-    if(req.body.hasOwnProperty("id") && req.body.id==null){
+    if(!req.body.hasOwnProperty("id") && req.body.id==null){
         res.status(400).send("Bad Request");
         return;
     }

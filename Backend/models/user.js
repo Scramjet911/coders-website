@@ -95,7 +95,7 @@ var userSchema = new mongoose.Schema({
     },
     subscriptions : {
         type : [subscriberSchema]
-    }
+    },
     following:[{
         type:ObjectId,
         ref:'User'

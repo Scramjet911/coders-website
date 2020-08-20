@@ -14,7 +14,8 @@ var eventSchema = new mongoose.Schema({
     },
     date : {
         type : Date,
-        required : [true, 'Date cannot be blank']
+        required : [true, 'Date cannot be blank'],
+        index : true
     },
     duration : {
         type : Number,
