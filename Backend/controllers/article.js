@@ -89,10 +89,14 @@ exports.updateArticle =(req,res)=>{
 
 }
 
+exports.deleteArticle = (req,res)=>{
+
+}
+
 exports.uploadImage = (req,res)=>{
     let form = new formidable.IncomingForm();
     form.uploadDir='./public/uploads';
-    form.maxFieldsSize=10*1024*1024;    //10MB
+    form.maxFieldsSize=5*1024*1024;    //5MB
     form.keepExtensions = true;
 
     form.parse(req,(err,fields,file)=>{

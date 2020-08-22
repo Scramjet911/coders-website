@@ -14,6 +14,8 @@ const subscriberRoutes = require("./routes/subscribe");
 const eventRoutes = require("./routes/events");
 const articleRoutes=require("./routes/article")
 const categoryRoutes =require("./routes/category")
+const resourceRoutes =require("./routes/resources")
+
 
 
 //database connection
@@ -39,6 +41,8 @@ app.use("/api",subscriberRoutes);
 app.use("/api",eventRoutes);
 app.use("/api",articleRoutes);
 app.use("/api",categoryRoutes);
+app.use("/api",resourceRoutes);
+
 
 
 const port=process.env.PORT|| 8000;
