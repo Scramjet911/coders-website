@@ -1,14 +1,16 @@
-const User =require("../models/user");
+const User = require("../models/user");
+const {Events} = require("../models/events");
 const formidable = require("formidable");
-const _ =require("lodash");
-const fs =require("fs");
+const _ = require("lodash");
+const fs = require("fs");
+const mongoose = require("mongoose");
 
 
 exports.getUserById = (req,res,next,id)=>{
     User.findById(id).exec((err,user)=> {
         if(err || !user){
             return res.status(400).json({
-                errpr:"No user was found in DB"
+                error:"No user was found in DB"
             })
         } 
         req.profile =user;
@@ -17,7 +19,6 @@ exports.getUserById = (req,res,next,id)=>{
 };
 
 exports.getUser = (req,res)=>{
-    
     req.profile.salt =undefined;
     req.profile.encry_password= undefined;
     req.profile.createdAt=undefined;
@@ -107,8 +108,8 @@ exports.follow=(req,res)=>{
         })
         
     })
-    
 }
+
 exports.unfollow=(req,res)=>{
     let user = req.profile;
     User.findById(req.params.id,(err,follow)=>{
@@ -135,11 +136,58 @@ exports.unfollow=(req,res)=>{
             res.status(400).json({
                 msg:"unfollowed"
             })
-        
         })
-
     })
-    
-
 }
 
+/* Will send array containing event id, title, date */
+exports.getSavedEvents = (req, res)=>{
+    User.findById(req.params.userId, async (err,user)=>{
+        if(err){
+            res.status(500).send("Server Error");
+            return;
+        }
+        try{
+            let retEvents = user.savedEvents;
+            let resEvents = await Promise.all(retEvents.map(async e=>{
+                let elem = await Events.findById(mongoose.Types.ObjectId(e));
+                delete elem.description;
+                delete elem.duration;
+                return elem;
+            }));
+            res.status(201).json(resEvents);
+        }
+        catch(error){
+            console.log("Server Error",error);
+            res.status(500).send("Server Error");
+        }
+    });
+}
+
+/* Request needs only EventId */
+exports.saveEvent = (req, res)=>{
+    User.findByIdAndUpdate(req.params.userId,{$addToSet : {savedEvents:req.body.eventId}},(err,doc)=>{
+        if(err){
+            console.log("Unable to Add to Saved Events",err);
+            res.status(500).send("Server Error");
+        }
+        else{
+            // console.log("Saved Event",doc);
+            res.status(201).send("Success");
+        }
+    });
+}
+
+/* Request Needs only EventID */
+exports.deleteSavedEvent = (req, res)=>{
+    User.findByIdAndUpdate(req.params.userId,{$pull : {savedEvents:req.body.eventId}},(err,doc)=>{
+        if(err){
+            console.log("Unable to Delete Saved Events",err);
+            res.status(500).send("Server Error");
+        }
+        else{
+            console.log("Deleted Saved Event",doc);
+            res.status(201).send("Success");
+        }
+    });
+}

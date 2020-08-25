@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator');
 
-const {addEvent, approveEvent, addReviewEvent, deleteEvent} = require('../controllers/events');
+const {addEvent, approveEvent, addReviewEvent, deleteEvent, updateReviewEvent, deleteReviewEvent, updateEvent, getEvent} = require('../controllers/events');
 const { isAdmin, isSignedIn, isAuthenticated } = require('../controllers/auth');
 const { getUserById } = require('../controllers/user');
 
@@ -17,13 +17,24 @@ const eventValidate = ()=>{
 }
 
 router.param("userId",getUserById);
+// Get the months Main Events
+router.get('/events/',getEvent);
+// Get review Events submitted by user
+router.get('/review-event/:userId', isSignedIn, isAuthenticated, )
 // Add Events for non admin users
-router.post('/add-review-event/:userId', eventValidate(), isSignedIn, isAuthenticated, addReviewEvent);
-// Approve Events added by non admin users
+router.post('/review-event/:userId', eventValidate(), isSignedIn, isAuthenticated, addReviewEvent);
+// Update Review Events
+router.put('/review-event/:userId', isSignedIn, isAuthenticated, updateReviewEvent);
+// Delete Review Events
+router.delete('/review-event/:userId', isSignedIn, isAuthenticated, deleteReviewEvent);
+
+// Approve Review - Events added by non admin users
 router.post('/auth-event/:userId',isSignedIn, isAuthenticated, isAdmin, approveEvent);
 // Add Events for admin users
-router.post('/add-event/:userId', eventValidate(), isSignedIn,isAuthenticated, isAdmin, addEvent);
+router.post('/event/:userId', eventValidate(), isSignedIn,isAuthenticated, isAdmin, addEvent);
+// Update Events
+router.put('/event/:userId', isSignedIn,isAuthenticated, isAdmin, updateEvent);
 // Delete Events, only admins
-router.post('/delete-event/:userId',isSignedIn, isAuthenticated, isAdmin, deleteEvent);
+router.delete('/event/:userId',isSignedIn, isAuthenticated, isAdmin, deleteEvent);
 
 module.exports = router;

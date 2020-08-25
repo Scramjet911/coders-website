@@ -14,7 +14,8 @@ var eventSchema = new mongoose.Schema({
     },
     date : {
         type : Date,
-        required : [true, 'Date cannot be blank']
+        required : [true, 'Date cannot be blank'],
+        index : true
     },
     duration : {
         type : Number,
@@ -30,9 +31,17 @@ var eventSchema = new mongoose.Schema({
     }
 }
 );
-
+var eventsReviewSchema = eventSchema.clone();
+eventSchema.add(
+    {
+        userId : {
+            type : mongoose.Schema.ObjectId,
+            index : true,
+            required : true
+    }
+});
 var events = mongoose.model("Events",eventSchema);
-var eventsReview = mongoose.model("EventsReview",eventSchema);
+var eventsReview = mongoose.model("EventsReview",eventsReviewSchema);
 
 module.exports = {
     Events : events,
