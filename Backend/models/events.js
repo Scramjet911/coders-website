@@ -31,9 +31,17 @@ var eventSchema = new mongoose.Schema({
     }
 }
 );
-
+var eventsReviewSchema = eventSchema.clone();
+eventSchema.add(
+    {
+        userId : {
+            type : mongoose.Schema.ObjectId,
+            index : true,
+            required : true
+    }
+});
 var events = mongoose.model("Events",eventSchema);
-var eventsReview = mongoose.model("EventsReview",eventSchema);
+var eventsReview = mongoose.model("EventsReview",eventsReviewSchema);
 
 module.exports = {
     Events : events,

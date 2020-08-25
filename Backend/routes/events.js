@@ -17,8 +17,10 @@ const eventValidate = ()=>{
 }
 
 router.param("userId",getUserById);
-// Get the months events
+// Get the months Main Events
 router.get('/events/',getEvent);
+// Get review Events submitted by user
+router.get('/review-event/:userId', isSignedIn, isAuthenticated, )
 // Add Events for non admin users
 router.post('/review-event/:userId', eventValidate(), isSignedIn, isAuthenticated, addReviewEvent);
 // Update Review Events

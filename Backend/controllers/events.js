@@ -1,22 +1,46 @@
 const {Events, EventsReview} = require('../models/events');
+const moment = require('moment');                                               // JS date Drives me crazy, using momentjs
 
+/* Getting Monthly Events For Calender */
 exports.getEvent = (req, res)=>{
-    let currdate = new Date()
-    let queryDateMin = new Date(currdate.getFullYear(),currdate.getMonth(),1),
-        queryDateMax = new Date(currdate.getFullYear(),currdate.getMonth()+1,0);
-    Events.find({"date" : {$gte : queryDateMin, $lte : queryDateMax}},(err,event)=>{
+    let currdate = moment();
+    let queryDateMin = moment([currdate.year(),currdate.month(), 1]),
+        queryDateMax = moment(queryDateMin).endOf('month');
+
+    if(req.query.page && parseInt(req.query.page)>1){                           // To get different Month Events
+        queryDateMin.add(parseInt(req.query.page)-1,'month');
+        queryDateMax = moment(queryDateMin).endOf('month');
+    }
+
+    Events.find({"date" : {$gte : queryDateMin, $lte : queryDateMax}},(err,events)=>{
         if(err){
             console.log("Database Error",err);
             res.status(500).send("Error");
         }
         else{
-            res.status(201).json(event);
+            res.status(201).json(events);
         }
     })
 }
+
+/* Getting Events Submitted By particular user */
+exports.getReviewEvent = (req, res)=>{
+    EventsReview.find({userId : req.params.userId},(err,events)=>{
+        if(err){
+            console.log("Database Error",err);
+            res.status(500).send("Error");
+        }
+        else{
+            res.status(201).json(events);
+        }
+    });
+}
+
+/* Adding Events For Review By admin */
 exports.addReviewEvent = (req, res)=>{
     var saveObj = req.body;
     saveObj.date = new Date(saveObj.date);
+    saveObj.userId = req.params.userId;
     EventsReview.create(saveObj,(error,newEvent)=>{
         if(error && error.name == 'ValidationError'){
             console.log('Validation Error : ',error);
@@ -102,7 +126,7 @@ exports.addEvent = (req, res)=>{
             res.status(400).send("Bad Request");
         }
         else{
-            console.log("Added to Approved Events",obj);
+            // console.log("Added to Approved Events",obj);
             res.status(201).send("Success");
         }
     });
