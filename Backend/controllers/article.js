@@ -6,6 +6,8 @@ const _ =require("lodash");
 const fs =require('fs');
 const path =require("path");
 const {validationResult} = require('express-validator');
+const { forEach } = require("lodash");
+const { Mongoose } = require("mongoose");
 
 
 exports.getArticleById = (req,res,next,id) =>{
@@ -89,10 +91,67 @@ exports.updateArticle =(req,res)=>{
 
 }
 
+exports.deleteArticle = (req,res)=>{
+
+    let article=req.article;
+    let user =req.profile;
+    //console.log(user._id,article.author)
+    if(String(user._id) == String(article.author)){
+        article.comments.forEach(item=>{
+            Comment.findById(item,(err,comment)=>{
+                if(err){
+                    return res.status(400).json({
+                        error:"canot find the comments of the article"
+                    });
+    
+                }
+                comment.remove((err)=>{
+                    if(err){
+                        return res.status(400).json({
+                            error:"canot delete this comment of the article"
+                        });
+        
+                    }
+                })
+            })
+        });
+        user.posts.pull(article._id);
+        user.save((err)=>{
+            if(err){
+                return res.status(400).json({
+                    err:"cannot delete in user posts"
+                })
+            }
+        })
+        article.remove((err,art)=>{
+            if(err){
+                return res.status(400).json({
+                    error:"can not delete this article"
+                })
+            }
+            res.status(400).json({
+                msg:"article deleted successfully",
+                authorname:user._id,
+                arti:article.author
+
+            })
+        })
+
+    }
+    else{
+        return res.status(400).json({
+            msg:"canot delete article ,you are not author" ,
+                authorname:user._id,
+                arti:article.author
+        })
+    }
+    
+}
+
 exports.uploadImage = (req,res)=>{
     let form = new formidable.IncomingForm();
     form.uploadDir='./public/uploads';
-    form.maxFieldsSize=10*1024*1024;    //10MB
+    form.maxFieldsSize=5*1024*1024;    //5MB
     form.keepExtensions = true;
 
     form.parse(req,(err,fields,file)=>{
@@ -154,6 +213,20 @@ exports.savingArticle = (req,res)=>{
         }
         res.json({
             msg:"saved"
+        })
+    })
+}
+exports.deletesavingArticle = (req,res)=>{
+    let user = req.profile;
+    user.savedarticles.pull(req.article._id);
+    user.save((err)=>{
+        if(err){
+            return res.status(400).json({
+                error:"can not delete this list.."
+            })
+        }
+        res.json({
+            msg:" deleted"
         })
     })
 }
