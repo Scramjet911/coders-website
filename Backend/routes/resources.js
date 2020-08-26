@@ -5,7 +5,7 @@ const { check} = require('express-validator');
 
 const {isSignedIn,isAuthenticated,isAdmin} = require("../controllers/auth");
 const {getUserById}=require("../controllers/user")
-const {getResourceById,createResources,deleteResources,updateResource,getAllResource} = require("../controllers/resources")
+const {getResourceById,createResources,deleteResources,updateResource,getAllResource,getResources} = require("../controllers/resources")
 
 
 router.param("userId",getUserById)
@@ -23,6 +23,8 @@ router.put("/resource/update/:userId/:id",isSignedIn,isAuthenticated,isAdmin,upd
 router.delete("/resource/delete/:userId/:id",isSignedIn,isAuthenticated,isAdmin,deleteResources)
 //geting the complete resource of a category
 router.get("/resources/:categoryId",getAllResource)
+router.get("/resources",getResources)
+
 
 //getting the category and count
 

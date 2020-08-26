@@ -18,6 +18,18 @@ exports.getResourceById= (req,res)=>{
     }
 
 }
+exports.getResources = (req,res)=>{
+    Category.find()
+    .exec((err,category)=>{
+        if(err){ 
+            return res.status(400).json({
+                error:"error in category"
+            });
+        }
+        category.posts = undefined;
+        res.json(category)
+    })
+}
 exports.getAllResource= (req,res)=>{
 
     Resources.find({category:{$in:[req.params.categoryId]}})
