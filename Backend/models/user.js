@@ -12,6 +12,9 @@ var subscriberSchema = new mongoose.Schema({
         required : true
     },
     keys : mongoose.Schema.Types.Mixed,
+    status : {
+        type : Number
+    }
 });
 
 var userSchema = new mongoose.Schema({
@@ -58,10 +61,10 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    savedList:{
-        type:Array,
-        default:[]
-    },
+    savedEvents:[{
+        type:ObjectId,
+        ref:"Events"
+    }],
     prog_lang:{
         type:[String],
         default:[]
