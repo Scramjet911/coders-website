@@ -71,6 +71,9 @@ function Settings(props) {
                       type="text"
                       className="form-control"
                       placeholder="username"
+                      name="username"
+                      maxlength="14"
+                      ref={register}
                     />
                   </div>
                 </div>
