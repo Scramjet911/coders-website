@@ -21,6 +21,8 @@ const categoryRoutes =require("./routes/category");
 const resourceRoutes =require("./routes/resources");
 const chatRoutes = require("./routes/chat");
 const { initSocket } = require('./controllers/chat');
+const discussionRoutes=require("./routes/discussion")
+
 
 // Webpush initialize with keys
 webpush.setVapidDetails('mailto:massmenon@gmail.com',process.env.publicKey,process.env.privateKey);     
@@ -73,6 +75,8 @@ app.use("/api",articleRoutes);
 app.use("/api",categoryRoutes);
 app.use("/api",resourceRoutes);
 app.use("/api/chat",chatRoutes);
+app.use("/api",discussionRoutes);
+
 
 const port=process.env.PORT|| 8000;
 
