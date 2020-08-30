@@ -8,16 +8,19 @@ const cookieParser =require('cookie-parser');
 const cors = require('cors');
 const webpush = require('web-push');
 const Agenda = require('agenda');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 // Routes
-const authRoutes=require("./routes/auth")
+const authRoutes=require("./routes/auth");
 const userRoutes=require("./routes/user");
 const subscriberRoutes = require("./routes/subscribe");
 const eventRoutes = require("./routes/events");
-const articleRoutes=require("./routes/article")
-const categoryRoutes =require("./routes/category")
-const resourceRoutes =require("./routes/resources")
-
+const articleRoutes=require("./routes/article");
+const categoryRoutes =require("./routes/category");
+const resourceRoutes =require("./routes/resources");
+const chatRoutes = require("./routes/chat");
+const { initSocket } = require('./controllers/chat');
 
 // Webpush initialize with keys
 webpush.setVapidDetails('mailto:massmenon@gmail.com',process.env.publicKey,process.env.privateKey);     
@@ -31,29 +34,30 @@ mongoose.connect(process.env.DATABASE, {
     useFindAndModify: false 
 }).then(()=>{
     console.log("DB connected");
-    setIndexes();
 });
 
-// Initiate Job services (Agenda)
-let agenda = new Agenda({db: {address : process.env.DATABASE, collection:'dailyQueue', 
-processEvery : '5 minutes', options : {useNewUrlParser: true, useUnifiedTopology: true}}});
-agenda.start();
-require('./jobs/notification')(agenda);
-app.agenda = agenda;
+// Initiate Agenda Job services
+const startAgenda = async () => {
+    let agenda = new Agenda({db: {address : process.env.DATABASE, 
+    processEvery : '5 minutes', options : {useNewUrlParser: true, useUnifiedTopology: true}}});
+    await agenda.start();
+    require('./jobs/notification')(agenda);
+    app.agenda = agenda;
 
-
-// Set Indexes for Agenda Collection
-const setIndexes = async () => {
-    let agendaSchema = new mongoose.Schema({},{collection:'dailyQueue', strict:false});
-    let agendaModel = mongoose.model('dailyQueue',agendaSchema);
+    // Set Indexes for Agenda Collection
+    let agendaSchema = new mongoose.Schema({},{collection:'agendaJobs', strict:false});
+    let agendaModel = mongoose.model('agendaJobs',agendaSchema);
     let indexes = await agendaModel.collection.getIndexes();
-    // console.log(indexes);
     if(!('user_event' in indexes)){
         await agendaModel.collection.createIndex({"data.eventId":1,"data.userId":1},{name:'user_event',sparse:'true'});
     }
 };
 
+startAgenda()
+.catch(err=>console.error(err));
 
+// Initiate Websocket
+initSocket(io);
 
 //middlewares
 app.use(bodyParser.json());
@@ -62,19 +66,17 @@ app.use(cors());
 
 //routes
 app.use("/api",authRoutes);
-app.use("/api",userRoutes);
-app.use("/api",subscriberRoutes);
+app.use("/api/user",userRoutes);
+app.use("/api/subscription",subscriberRoutes);
 app.use("/api",eventRoutes);
 app.use("/api",articleRoutes);
 app.use("/api",categoryRoutes);
 app.use("/api",resourceRoutes);
-
-
-
+app.use("/api/chat",chatRoutes);
 
 const port=process.env.PORT|| 8000;
 
 
-app.listen(port,()=>{
-    console.log(`app :${port}`);
+http.listen(port,()=>{
+    console.log(`http :${port}`);
 });
