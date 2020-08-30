@@ -15,6 +15,7 @@ const userRoutes=require("./routes/user");
 const subscriberRoutes = require("./routes/subscribe");
 const eventRoutes = require("./routes/events");
 const articleRoutes=require("./routes/article")
+const discussionRoutes=require("./routes/discussion")
 const categoryRoutes =require("./routes/category")
 const resourceRoutes =require("./routes/resources")
 
@@ -68,6 +69,8 @@ app.use("/api",eventRoutes);
 app.use("/api",articleRoutes);
 app.use("/api",categoryRoutes);
 app.use("/api",resourceRoutes);
+app.use("/api",discussionRoutes);
+
 
 
 

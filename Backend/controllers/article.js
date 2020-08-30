@@ -336,7 +336,7 @@ exports.deleteComment= (req,res)=>{
     let article = req.article;
     Comment.findById(id,(err,comment)=>{
        // console.log(comment)
-        if(err || comment.author!= user._id){
+        if(err || String(comment.author)!= String(user._id)){
             return res.json({
                 error:"can not find this comment"
             })

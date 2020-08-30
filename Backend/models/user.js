@@ -92,10 +92,15 @@ var userSchema = new mongoose.Schema({
         type:ObjectId,
         ref:"Articlecomment"
     }],
-    discussion:{
-        type:Array,
-        default:[]
-    },
+
+    discussion:[{
+        type:ObjectId,
+        ref:"Discussion"
+    }],
+    disc_comments:[{
+        type:ObjectId,
+        ref:"discussioncomment"
+    }],
     subscriptions : {
         type : [subscriberSchema]
     },
