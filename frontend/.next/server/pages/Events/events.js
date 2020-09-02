@@ -128,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _layout_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layout.module.css */ "./components/layout.module.css");
 /* harmony import */ var _layout_module_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_layout_module_css__WEBPACK_IMPORTED_MODULE_1__);
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\layout.js";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\layout.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
@@ -199,7 +199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register.jsx */ "./components/login/register.jsx");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\login\\login.jsx";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\login\\login.jsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -471,7 +471,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.jsx */ "./components/login/login.jsx");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\login\\register.jsx";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\login\\register.jsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -648,7 +648,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _login_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login/index */ "./components/login/index.jsx");
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\signin.js";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\signin.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -792,7 +792,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _login_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login/index */ "./components/login/index.jsx");
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\signup.js";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\signup.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -948,7 +948,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_live_clock__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_live_clock__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../node_modules/react-bootstrap */ "./node_modules/react-bootstrap/cjs/index.js");
 /* harmony import */ var _node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_8__);
-var _jsxFileName = "D:\\React Projects\\codestats\\components\\top.js";
+var _jsxFileName = "E:\\coders-website\\frontend\\components\\top.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -11764,7 +11764,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_live_clock__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_live_clock__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../node_modules/react-bootstrap */ "./node_modules/react-bootstrap/cjs/index.js");
 /* harmony import */ var _node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_node_modules_react_bootstrap__WEBPACK_IMPORTED_MODULE_7__);
-var _jsxFileName = "D:\\React Projects\\codestats\\pages\\Events\\events.js";
+var _jsxFileName = "E:\\coders-website\\frontend\\pages\\Events\\events.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 

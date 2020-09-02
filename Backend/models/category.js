@@ -13,7 +13,11 @@ const categorySchema = new mongoose.Schema({
         type:ObjectId,
         ref:"Article"
 
-    }]
+    }],
+    resourceCount:{
+        type:Number,
+        default:0
+    }
 },
 {timestamps:true});
 

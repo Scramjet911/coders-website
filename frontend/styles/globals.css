@@ -1089,15 +1089,3 @@ input:focus, textarea:focus, select:focus{
   height: auto;
   float: left;
 }
-/*settings*/
-.mnav {
-  margin-top: 100px;
-}
-.mset {
-  margin-left: 200px;
-}
-.img-thumb {
-  width: 100px;
-  height: auto;
-  float: left;
-}

@@ -12,6 +12,9 @@ var subscriberSchema = new mongoose.Schema({
         required : true
     },
     keys : mongoose.Schema.Types.Mixed,
+    status : {
+        type : Number
+    }
 });
 
 var userSchema = new mongoose.Schema({
@@ -58,10 +61,13 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    savedList:{
-        type:Array,
-        default:[]
+    designation:{
+        type:String
     },
+    savedEvents:[{
+        type:ObjectId,
+        ref:"Events"
+    }],
     prog_lang:{
         type:[String],
         default:[]
@@ -89,10 +95,15 @@ var userSchema = new mongoose.Schema({
         type:ObjectId,
         ref:"Articlecomment"
     }],
-    discussion:{
-        type:Array,
-        default:[]
-    },
+
+    discussion:[{
+        type:ObjectId,
+        ref:"Discussion"
+    }],
+    disc_comments:[{
+        type:ObjectId,
+        ref:"discussioncomment"
+    }],
     subscriptions : {
         type : [subscriberSchema]
     },

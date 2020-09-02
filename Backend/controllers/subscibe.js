@@ -4,7 +4,6 @@ const privateKey = process.env.privateKey;
 const webpush = require('web-push');
 const Users = require('../models/user');
 
-webpush.setVapidDetails('mailto:massmenon@gmail.com',publicKey,privateKey);     // Webpush initialize with keys
 
 /*  Function to save the user endpoint in User collection
     Request body should be of format : 
@@ -18,9 +17,11 @@ webpush.setVapidDetails('mailto:massmenon@gmail.com',publicKey,privateKey);     
 exports.addSubscription = (req, res)=>{
     
     // Finds the user using ID and pushes subscription value into subscription Array
-    let subval = req.body.subscription;
-    subval.status = 1;
-    Users.findOneAndUpdate({_id : req.params.userId}, {$push:{subscriptions : subval}}, (error,success)=>{     
+    let subval = req.body;
+    subval.status = '1';
+    console.log(subval);
+    // Adds Subscription endpoint if doesn't exist
+    Users.findOneAndUpdate({_id : req.params.userId,'subscriptions.endpoint':{$ne:subval.endpoint}}, {$addToSet:{subscriptions : subval}}, (error,success)=>{     
         if(error){
             console.log("Couldn't add Subscriber to User Database",error);
         }
@@ -63,7 +64,7 @@ exports.updateSubscription = (req, res)=>{
 */
 exports.deleteSubscription = (req, res)=>{
     let subval = req.body;
-    Users.findOneAndUpdate({_id : req.params.userId,"subscriptions._id":subval.endId}, {$pull:{"subscriptions" :{"_id": subval.endId}}}, (error,success)=>{     
+    Users.findOneAndUpdate({_id : req.params.userId,"subscriptions._id":subval.subId}, {$pull:{"subscriptions" :{"_id": subval.subId}}}, (error,success)=>{     
         if(error){
             console.log("Couldn't Delete Subscriber from Database",error);
         }
