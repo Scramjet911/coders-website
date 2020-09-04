@@ -1,2 +1,2 @@
-# coders-website
-A companion website for a Competetive Coder
+# Coders Website
+A Companion Website for competitive Coders
