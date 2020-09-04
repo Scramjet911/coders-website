@@ -3,7 +3,6 @@ const Chats = require('../models/chats');
 const User = require('../models/user');
 const socketjwt = require('socketio-jwt');
 const mongoose = require('mongoose');
-const { isDate } = require('lodash');
 const chatroom = require('../models/chatroom');
 
 const MaxChatMsg = 100;
@@ -54,6 +53,7 @@ exports.getChat = (req, res)=>{
     }
     chatdateId = mongoose.Types.ObjectId.createFromTime(chatdate/1000);
     // console.log(chatdateId.getTimestamp()+'\n'+chatdate.toISOString());
+    // Chats.find({'chatroomId':req.params.chatroomId},(err,t)=>console.log(t));
     Chats.findOne({'chatroomId':req.params.chatroomId, "_id":{$lt:chatdateId}}, {}, {sort:{"_id":-1}}, (err,chat)=>{
         if(err){
             console.log(err);
@@ -69,32 +69,54 @@ exports.getChat = (req, res)=>{
     });
 }
 
-// Start chat with new user
-exports.createChatroom = (req, res)=>{
-    Chatrooms.findOne({$or:[{"user1":req.body.to,"user2":req.params.username}, {"user1":req.params.username,"user2":req.body.to}]},(err, chatroom)=>{
-        if(err){
-            console.log(err);
-            res.status(500).send("Server Error");
+/*  Start chat with new user
+    req : {
+        to:username
+    }
+ */
+exports.createChatroom = async (req, res, next)=>{
+    // console.log(req.body.to);
+    let result;
+    try{
+        result = await User.exists({"username":req.body.to});
+        if(!result){
+            res.status(404).send("User Not Found");
+            return next();
         }
         else{
-            // If user exists send chat
-            if(chatroom){
-                req.params.chatroomId = chatroom._id;
-                this.getChat(req,res);
-            }
-            else{
-                // console.log(chatroom);
-                Chatrooms.create({"user1":req.body.to,"user2":req.params.username}, (error)=>{
-                    if(error){
-                        console.log(error);
-                        res.status(500).send("Server Error");
+            Chatrooms.findOne({$or:[{"user1":req.body.to,"user2":req.params.username}, {"user1":req.params.username,"user2":req.body.to}]},(err, chatroom)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).send("Server Error");
+                }
+                else{
+                    // If Chatroom exists send chat
+                    if(chatroom){
+                        req.params.chatroomId = chatroom._id;
+                        this.getChat(req,res);
                     }
-                    else
-                        res.status(201).send("Chat Initiated");
-                })
-            }
+                    else{
+                        // console.log(chatroom);
+                        Chatrooms.create({"user1":req.body.to,"user2":req.params.username}, (error,chatroom)=>{
+                            if(error){
+                                console.log(error);
+                                res.status(500).send("Server Error");
+                            }
+                            else
+                                res.status(201).json(chatroom.toJSON());
+                        })
+                    }
+                }
+            });
         }
-    })
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send("Server Error");
+        return next();
+    }
+    
+    
 }
 
 exports.deleteChatroom = (req, res)=>{
@@ -127,13 +149,13 @@ exports.initSocket = (socketio)=>{
         // console.log('User Connected');
         socket.on('joinUser', (username)=>{
             socket.join(username);
-            // console.log('User Joined Own Room');
+            console.log(username + ' Joined Own Room');
         });
         socket.on('disconnect',()=>{
             // console.log('User Disconnected');
         });
         socket.on('privateMessage',async(from, to, msg)=>{
-            // console.log(from, to, msg);
+            console.log(from, to, msg);
             Chatrooms.findOneAndUpdate({$or:[{"user1":from,"user2":to}, {"user1":to,"user2":from}]}, {$setOnInsert:{"user1":from,"user2":to}}, {upsert : true, new:true}, (err,chatroom)=>{
                 console.log(chatroom);
                 if(err){

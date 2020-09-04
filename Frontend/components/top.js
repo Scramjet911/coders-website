@@ -69,7 +69,7 @@ function Top () {
                          </a>
                          <div className="clock" >
                              <NavItem>
-                                 <Clock format={'HH:mm:ss'} ticking={true} timezone={'India Standard Time'} />
+                                 <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Kolkata'} />
                              </NavItem>
                          </div>
                      </Nav>

@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import Top from '../components/top'
+import Chat from '../components/chat/chat'
 import styles from '../styles/Home.module.css'
 import Clock from 'react-live-clock'
+
 export default function Home() {
   return (
     <Layout>
@@ -105,6 +107,7 @@ export default function Home() {
             </div>
          </div>
        </div>
+       <Chat></Chat>
 </Layout>
   )
 }
