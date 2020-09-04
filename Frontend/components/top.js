@@ -56,7 +56,7 @@ function Top () {
                               <SignIn/>
                     
                          </Modal>
-                         <Modal id="center"
+                          <Modal id="center"
                            isOpen={modal2IsOpen}
                            onRequestClose={()=>setModal2IsOpen(false)}
                            style={{overlay:{background:"black", opacity:"0.5"},content:{background:"black",width:"450px",
