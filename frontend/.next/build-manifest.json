@@ -29,10 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/discussion/discuss": [
+    "/resources/display": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/discussion/discuss.js"
+      "static/chunks/pages/resources/display.js"
     ]
   },
   "ampFirstPages": []
