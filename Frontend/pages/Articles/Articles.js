@@ -5,29 +5,32 @@ import Top from '../../components/top'
 import {Searchbar} from 'react-bootstrap'
 import Clock from 'react-live-clock'
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap'
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 const API = process.env.backend;
 
 export default function     Articles() {
-  let [articles,setarticles]=useState({
-    values:[]
-  }
-    
-  )
-   fetch(`${API}/article`,{
-    method:"GET",
-    })
-    .then(resposnse =>{
-      return resposnse.json();
-  })
-  .then(data=>{
-    console.log(data)
-    setarticles({...articles,values:[data]})
-  })
-  .catch(err=>console.log(err));
+  let [articles,setarticles]=useState([])
+
+  useEffect(() => {
+    fetch(`${API}/article`,{
+      method:"GET",
+      }).then(
+       
+        res => {setarticles(res.data)
+          console.log(res.data)
+        }
+        
+
+    )
+    .catch(err=>console.log(err));
+},[])
+
+
   
-  const {values} =articles
     
+  
+  
+  
     //console.log(articles)
   return (
            <div>
@@ -58,7 +61,7 @@ export default function     Articles() {
           <div className="article-category">Category</div>
         </div> 
         <div>
-        {values.map((item=>{
+        {articles.map((item=>{
       return(
       
         <div className="row">
