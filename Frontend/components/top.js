@@ -7,10 +7,15 @@ import Link from 'next/link'
 import Layout from './layout'
 import Clock from 'react-live-clock'
 import render from 'react';
+//import { useHistory } from "react-router-dom";
+import {signout,isAuthenticated} from '../auth/index'
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from '../node_modules/react-bootstrap'
+import { useRouter } from 'next/router'
+
 function Top () { 
     const [modal1IsOpen,setModal1IsOpen] =useState(false)
     const [modal2IsOpen,setModal2IsOpen] =useState(false)
+    const router = useRouter();
         return (
              <Layout>
                  <div className="top-body">
@@ -43,7 +48,17 @@ function Top () {
                              </a>
                          </Link>
                          
-                         <a onClick={()=> setModal1IsOpen(true)} className="login" >
+                         {isAuthenticated() && (
+                             <a className="login"><div onClick={()=>{
+                                 signout(()=>{
+                                   router.push("/")
+                             })
+                            }}>signout </div>
+                            </a>
+                         )}
+                         
+                         {!isAuthenticated() &&
+                            ( <span><a onClick={()=> setModal1IsOpen(true)} className="login" >
                             <div>Sign In</div>
                          </a>
                          
@@ -67,6 +82,8 @@ function Top () {
                          <a onClick={()=> setModal2IsOpen(true)} className="signup" >
                             <div>Sign Up</div>
                          </a>
+                         </span>
+                        )}
                          <div className="clock" >
                              <NavItem>
                                  <Clock format={'HH:mm:ss'} ticking={true} timezone={'India Standard Time'} />

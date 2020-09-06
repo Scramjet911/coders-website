@@ -3,6 +3,7 @@ import Link from "next/link";
 import Top from "../../components/top";
 import Layout from "../../components/layout";
 import { useForm } from "react-hook-form";
+import ProtectRoute from "../../auth/privateRoute"
 
 function Settings(props) {
   const { register, watch } = useForm();
@@ -179,4 +180,4 @@ function Settings(props) {
   );
 }
 
-export default Settings;
+export default ProtectRoute(Settings);

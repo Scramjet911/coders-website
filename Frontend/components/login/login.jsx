@@ -7,16 +7,13 @@ import {useState} from "react";
 import {login,authenticate,isAuthenticated} from "../../auth/index" 
 
 function Login(props) {
+  const router = useRouter()
   
 const  routeChange=()=>{
    let path="/SignUp";
    props.history.push(path);
  }
- const router = useRouter()
- const routeChangelogin=()=>{
-  let path="/";
-  this.props.history.push(path);
-}
+ 
 const handleShow = ()=>{
   setvalues({...values,
      isActive: true
@@ -68,6 +65,7 @@ const errormessage=()=>{
 const performRedirect =() =>{
   //TODO: do aredirection
  
+
   if(didRedirect){
     if(user && user.role ===1){
       console.log("redirected to admin")
@@ -83,7 +81,8 @@ const performRedirect =() =>{
   if(isAuthenticated()){
 
     console.log("is authenticate is working")
-    return props.history.push(path);
+    let path='/';
+    return (router.push(path));
   }
 }
 

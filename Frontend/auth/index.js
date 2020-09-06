@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+import Router,{useRouter} from 'next/router';
 const API = process.env.backend;
 
 export const login =user =>{
@@ -45,3 +47,7 @@ export const isAuthenticated= ()=>{
         return false;
     }
 }
+
+
+
+ 
