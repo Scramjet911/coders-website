@@ -9,29 +9,21 @@ import { useState ,useEffect} from 'react'
 const API = process.env.backend;
 
 export default function     Articles() {
-  let [articles,setarticles]=useState([])
+  const [articles,setarticles]=useState([])
 
   useEffect(() => {
-    fetch(`${API}/article`,{
-      method:"GET",
-      }).then(
+    const result=fetch(`${API}/article`,{
+    method:"GET"}).then(
        
-        res => {setarticles(res.data)
-          console.log(res.data)
+        res => res.json()).then(data=>{setarticles(data)
+          console.log(data)
         }
         
 
     )
     .catch(err=>console.log(err));
 },[])
-
-
-  
-    
-  
-  
-  
-    //console.log(articles)
+console.log(articles)
   return (
            <div>
              
@@ -39,7 +31,7 @@ export default function     Articles() {
                <title>Display</title>
                <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
                <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-               <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"/>
+               <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossOrigin="anonymous"/>
              </Head>
              <div>
           <Top/>
@@ -75,37 +67,22 @@ export default function     Articles() {
       <div className="title">{item.title}</div>    
         </div>
         <div>
-      <p className="username" style={{top:"-30px",left:"-10px"}}>@{item.authername}</p>
-      <p className="date-text" style={{top:"-62px",left:"120px"}}>{item.createAt}</p> 
+      <p className="username" style={{top:"-30px",left:"-10px"}}>@{item.author.name}</p>
+      <p className="date-text" style={{top:"-62px",left:"120px"}}>{item.category.map(item=>{
+            return item.name
+          })} </p> 
+      <p className="date-text" style={{top:"-62px",left:"120px"}}>{new Date(item.createdAt).toDateString()}</p> 
         </div> 
         <div  className="question" style={{top:"-50px",left:"-10px"}}>
-          {item.body} 
+          {item.body.slice(0,3)}
+          {/* todo adding onsubmit function  */}
           <h1><a>Read more......</a></h1>
         </div>
       </div>
     </div>
       )
     }))}
-          {/* <div className="row">
-            <div id="center" className="article-list">
-              <div id="left" className="icon">
-                <div style={{left:"-80px",top:"-10px"}} className="avatar">
-                  <img src="/images/avatar.png" className="image-size1"/>
-                </div>
-              </div> 
-              <div className="article-title">
-                <div className="title">Article title</div>    
-              </div>
-              <div>
-                <p className="username" style={{top:"-30px",left:"-10px"}}>@username</p>
-                <p className="date-text" style={{top:"-62px",left:"120px"}}>date</p> 
-              </div> 
-              <div  className="question" style={{top:"-50px",left:"-10px"}}>
-                fjhgkjghkj fjhgkjhk ghjkhlk fjhgkjhk gkhjklkv ghgkjhk gjgkjh gkh hjgjhg jhgjh gjhg hgkjhkj ghjfgjhgkjhk hjfjhgkjhk hjgjgkjhlk gjhgkjhklj gjhgkjhkj hkjlkjk hkjhlkjlj gjkghjkh 
-                <h1><a>Read more......</a></h1>
-              </div>
-            </div>
-          </div> */}
+          
         </div>    
       </div>
   )

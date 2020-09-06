@@ -189,7 +189,8 @@ exports.getAllArticle =(req,res) =>{
     let limit=req.query.limit?parseInt(req.query.limit) :8
     let sortBy=req.query.sortBy?req.query.sortBy :"createdAt"
     Article.find()
-   // .populate("author",'username')
+   .populate("author",'name')
+   .populate("category",'name')
     .sort([[sortBy,"asc"]])
     .limit(limit)
     .exec((err,articles)=>{
