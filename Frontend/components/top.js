@@ -80,6 +80,7 @@ function Top() {
                             </a>
 
                             <Modal
+                                ariaHideApp={false}
                                 id="center"
                                 isOpen={modal1IsOpen}
                                 onRequestClose={() => setModal1IsOpen(false)}
@@ -104,6 +105,7 @@ function Top() {
                                 <SignIn />
                             </Modal>
                             <Modal
+                            ariaHideApp={false}
                                 id="center"
                                 isOpen={modal2IsOpen}
                                 onRequestClose={() => setModal2IsOpen(false)}
